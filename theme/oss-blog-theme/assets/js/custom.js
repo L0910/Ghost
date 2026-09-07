@@ -1,11 +1,14 @@
 /**
  * 开源个人博客系统 - 自定义主题脚本
  * 包含：搜索弹窗、导航交互、文章目录、回到顶部等功能
+ * 版本：1.0.1
  */
 (function () {
     'use strict';
 
     var searchModal = null, searchInput = null, searchResults = null, searchSuggestions = null, isSearchOpen = false;
+    var contentApiKey = window.GHOST_CONTENT_API_KEY || '';
+    var siteUrl = window.GHOST_SITE_URL || '';
 
     function initSearch() {
         searchModal = document.getElementById('search-modal');
@@ -51,10 +54,21 @@
             searchSuggestions.style.display = 'block';
             return;
         }
+
+        // 检查是否配置了Content API Key
+        if (!contentApiKey) {
+            searchResults.innerHTML = '<div class="search-no-results"><div class="search-no-results-title">搜索功能未配置</div><div class="search-no-results-suggestion">请在主题设置中填入 Content API Key<br/>管理端 → 设置 → 设计 → 自定义 → content_api_key</div></div>';
+            searchSuggestions.style.display = 'none';
+            return;
+        }
+
         searchSuggestions.style.display = 'none';
         searchResults.innerHTML = '<div style="padding:30px;text-align:center;color:#9aa3ad;">搜索中...</div>';
-        var url = '/ghost/api/content/posts/?search=' + encodeURIComponent(q) + '&limit=10&include=tags,authors&fields=id,title,slug,excerpt,feature_image,published_at,url';
-        fetch(url)
+
+        // 构建API URL
+        var apiUrl = siteUrl + '/ghost/api/content/posts/?search=' + encodeURIComponent(q) + '&limit=10&include=tags,authors&fields=id,title,slug,excerpt,feature_image,published_at,url&key=' + contentApiKey;
+
+        fetch(apiUrl)
             .then(function (r) { if (!r.ok) throw new Error('fail'); return r.json(); })
             .then(function (data) { renderResults(data.posts || [], q); })
             .catch(function () { renderError(); });
@@ -72,13 +86,14 @@
             var date = post.published_at ? new Date(post.published_at).toLocaleDateString('zh-CN') : '';
             var author = post.authors && post.authors.length > 0 ? post.authors[0].name : '';
             var tag = post.tags && post.tags.length > 0 ? post.tags[0].name : '';
-            html += '<a href="' + (post.url || '/') + '" class="search-result-item"><div class="search-result-title">' + title + '</div><div class="search-result-excerpt">' + excerpt + '</div><div class="search-result-meta">' + (tag ? '<span>' + tag + '</span>' : '') + (author ? '<span>' + author + '</span>' : '') + (date ? '<span>' + date + '</span>' : '') + '</div></a>';
+            var postUrl = post.url || (siteUrl + '/' + post.slug + '/');
+            html += '<a href="' + postUrl + '" class="search-result-item"><div class="search-result-title">' + title + '</div><div class="search-result-excerpt">' + excerpt + '</div><div class="search-result-meta">' + (tag ? '<span>' + tag + '</span>' : '') + (author ? '<span>' + author + '</span>' : '') + (date ? '<span>' + date + '</span>' : '') + '</div></a>';
         });
         searchResults.innerHTML = html;
     }
 
     function renderError() {
-        searchResults.innerHTML = '<div class="search-no-results"><div class="search-no-results-title">搜索服务暂时不可用</div><div class="search-no-results-suggestion">请稍后重试，或使用标签浏览文章</div></div>';
+        searchResults.innerHTML = '<div class="search-no-results"><div class="search-no-results-title">搜索服务暂时不可用</div><div class="search-no-results-suggestion">请检查 Content API Key 是否正确，或稍后重试</div></div>';
     }
 
     function highlight(text, query) {
@@ -129,6 +144,6 @@
         initSearch();
         initBackToTop();
         initTOC();
-        console.log('%c开源个人博客系统 - 自定义主题已加载', 'color:#15171A;font-weight:bold;font-size:14px;');
+        console.log('%c开源个人博客系统 - 自定义主题 v1.0.1 已加载', 'color:#15171A;font-weight:bold;font-size:14px;');
     });
 })();
