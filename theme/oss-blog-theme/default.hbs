@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{meta_title}}</title>
+    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset "css/custom.css"}}" />
+    {{ghost_head}}
+</head>
+<body class="{{body_class}}">
+    <div class="site-wrapper">
+
+        {{!-- 顶部导航栏 --}}
+        <header class="site-header outer">
+            <div class="inner">
+                <nav class="site-nav">
+                    <div class="site-nav-left">
+                        {{#if @site.logo}}
+                            <a class="site-nav-logo" href="{{@site.url}}"><img src="{{img_url @site.logo size="xs"}}" alt="{{@site.title}}" /></a>
+                        {{else}}
+                            <a class="site-nav-logo" href="{{@site.url}}">{{@site.title}}</a>
+                        {{/if}}
+                        {{navigation}}
+                    </div>
+                    <div class="site-nav-right">
+                        {{!-- 搜索按钮 - 键盘可访问 --}}
+                        <button type="button" class="search-button" data-ghost-search aria-label="搜索文章" onclick="toggleSearch()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <span class="search-button-text">搜索</span>
+                        </button>
+                        {{#if @site.members_enabled}}
+                            {{#unless @member}}
+                                <a class="site-nav-login" href="#/portal/signin" data-portal="signin">登录</a>
+                                <a class="site-nav-register" href="#/portal/signup" data-portal="signup">注册</a>
+                            {{/unless}}
+                            {{#if @member}}
+                                <a class="site-nav-account" href="#/portal/account" data-portal="account">
+                                    {{#if @member.name}}{{@member.name}}{{else}}会员{{/if}}
+                                </a>
+                            {{/if}}
+                        {{/if}}
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        {{!-- 搜索弹窗 --}}
+        <div id="search-modal" class="search-modal" hidden>
+            <div class="search-modal-overlay" onclick="toggleSearch()"></div>
+            <div class="search-modal-content">
+                <div class="search-input-wrapper">
+                    <input type="text" id="search-input" class="search-input" placeholder="输入关键词搜索文章..." aria-label="搜索文章" oninput="performSearch(this.value)" />
+                    <button type="button" class="search-close" onclick="toggleSearch()" aria-label="关闭搜索">×</button>
+                </div>
+                <div id="search-results" class="search-results"></div>
+                <div id="search-suggestions" class="search-suggestions">
+                    <p class="search-hint">热门搜索：</p>
+                    <div class="search-tags">
+                        {{#get "tags" limit="5" include="count.posts" order="count.posts desc"}}
+                            {{#foreach tags}}
+                                <a href="{{url}}" class="search-tag">{{name}}</a>
+                            {{/foreach}}
+                        {{/get}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{!-- 主内容区域 --}}
+        <main id="site-main" class="site-main outer">
+            <div class="inner">
+                {{{body}}}
+            </div>
+        </main>
+
+        {{!-- 页脚 --}}
+        <footer class="site-footer outer">
+            <div class="inner site-footer-content">
+                <div class="site-footer-left">
+                    <p class="site-footer-title">{{@site.title}}</p>
+                    <p class="site-footer-description">{{@site.description}}</p>
+                </div>
+                <div class="site-footer-right">
+                    <p>基于 <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a> 开源博客系统二次开发</p>
+                    <p>© {{date format="YYYY"}} {{@site.title}}. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="{{asset "built/casper.js"}}" defer></script>
+    <script src="{{asset "js/custom.js"}}" defer></script>
+    <script src="{{asset "js/search-highlight.js"}}" defer></script>
+    {{ghost_foot}}
+</body>
+</html>

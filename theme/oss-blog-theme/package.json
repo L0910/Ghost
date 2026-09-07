@@ -1,0 +1,63 @@
+{
+  "name": "oss-blog-theme",
+  "description": "开源个人博客系统二次开发 - 自定义主题",
+  "demo": "https://github.com/L0910/Ghost",
+  "version": "1.0.0",
+  "engines": {
+    "ghost": ">=5.0.0"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "L0910",
+    "email": "student@example.com"
+  },
+  "keywords": [
+    "ghost",
+    "theme",
+    "blog",
+    "oss",
+    "custom"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/L0910/Ghost.git"
+  },
+  "scripts": {
+    "test": "echo \"Theme validation: run gscan <theme-dir>\" && exit 0",
+    "zip": "echo \"Run: zip -r oss-blog-theme.zip oss-blog-theme\""
+  },
+  "config": {
+    "posts_per_page": 6,
+    "image_sizes": {
+      "xs": { "width": 150 },
+      "s": { "width": 400 },
+      "m": { "width": 750 },
+      "l": { "width": 1000 },
+      "xl": { "width": 2000 }
+    },
+    "card_assets": true,
+    "custom": {
+      "show_recent_posts": {
+        "type": "boolean",
+        "default": true,
+        "description": "在首页显示最近文章列表"
+      },
+      "related_posts_count": {
+        "type": "select",
+        "options": [3, 4, 6],
+        "default": 3,
+        "description": "文章详情页相关推荐数量"
+      },
+      "search_highlight": {
+        "type": "boolean",
+        "default": true,
+        "description": "搜索结果关键词高亮"
+      },
+      "accent_color": {
+        "type": "color",
+        "default": "#15171A",
+        "description": "主题强调色"
+      }
+    }
+  }
+}
