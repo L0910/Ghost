@@ -1,0 +1,44 @@
+{{!< default}}
+
+{{!-- 标签页头部 --}}
+<header class="tag-header">
+    <h1 class="tag-title">{{tag.name}}</h1>
+    {{#if tag.description}}
+        <p class="tag-description">{{tag.description}}</p>
+    {{/if}}
+    <div class="tag-meta">
+        <span>共 {{tag.count.posts}} 篇文章</span>
+    </div>
+</header>
+
+{{!-- 标签下文章列表 --}}
+<div class="post-feed">
+    {{#foreach posts}}
+        <article class="post-card {{post_class}}{{#unless feature_image}} no-image{{/unless}}">
+            <a class="post-card-image-link" href="{{url}}">
+                <div class="post-card-image"{{#if feature_image}} style="background-image: url({{img_url feature_image size="m"}})"{{/if}}></div>
+            </a>
+            <div class="post-card-content">
+                <a class="post-card-content-link" href="{{url}}">
+                    <header class="post-card-header">
+                        <h2 class="post-card-title">{{title}}</h2>
+                    </header>
+                    <section class="post-card-excerpt">
+                        {{excerpt words="30"}}
+                    </section>
+                </a>
+                <footer class="post-card-meta">
+                    <div class="post-card-author">
+                        {{#if primary_author.profile_image}}
+                            <img class="author-profile-image" src="{{img_url primary_author.profile_image size="xs"}}" alt="{{primary_author.name}}" />
+                        {{/if}}
+                        <span>{{primary_author.name}}</span>
+                    </div>
+                    <time class="post-card-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY年MM月DD日"}}</time>
+                </footer>
+            </div>
+        </article>
+    {{/foreach}}
+</div>
+
+{{pagination}}

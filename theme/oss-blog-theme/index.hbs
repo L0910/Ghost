@@ -1,0 +1,73 @@
+{{!< default}}
+
+{{!-- 首页横幅区域 --}}
+{{#is "home"}}
+    {{#if @site.cover_image}}
+        <div class="site-header-cover" style="background-image: url({{img_url @site.cover_image size="xl"}})">
+            <div class="site-header-overlay">
+                <h1 class="site-title">{{@site.title}}</h1>
+                <p class="site-description">{{@site.description}}</p>
+            </div>
+        </div>
+    {{else}}
+        <div class="site-header-no-cover">
+            <h1 class="site-title">{{@site.title}}</h1>
+            <p class="site-description">{{@site.description}}</p>
+        </div>
+    {{/if}}
+{{/is}}
+
+{{!-- 文章列表 --}}
+<div class="post-feed">
+    {{#foreach posts}}
+        <article class="post-card {{post_class}}{{#unless feature_image}} no-image{{/unless}}">
+            <a class="post-card-image-link" href="{{url}}">
+                <div class="post-card-image"{{#if feature_image}} style="background-image: url({{img_url feature_image size="m"}})"{{/if}}>
+                    {{#if primary_tag}}
+                        <span class="post-card-tag">{{primary_tag.name}}</span>
+                    {{/if}}
+                </div>
+            </a>
+            <div class="post-card-content">
+                <a class="post-card-content-link" href="{{url}}">
+                    <header class="post-card-header">
+                        <h2 class="post-card-title">{{title}}</h2>
+                    </header>
+                    <section class="post-card-excerpt">
+                        {{excerpt words="30"}}
+                    </section>
+                </a>
+                <footer class="post-card-meta">
+                    <div class="post-card-author">
+                        {{#if primary_author.profile_image}}
+                            <img class="author-profile-image" src="{{img_url primary_author.profile_image size="xs"}}" alt="{{primary_author.name}}" />
+                        {{/if}}
+                        <span>{{primary_author.name}}</span>
+                    </div>
+                    <time class="post-card-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY年MM月DD日"}}</time>
+                    <span class="post-card-reading-time">{{reading_time}}</span>
+                </footer>
+            </div>
+        </article>
+    {{/foreach}}
+</div>
+
+{{!-- 分页 --}}
+{{pagination}}
+
+{{!-- 最近文章侧边栏（自定义配置控制） --}}
+{{#if @custom.show_recent_posts}}
+    <aside class="recent-posts-section">
+        <h3 class="recent-posts-title">最近文章</h3>
+        <div class="recent-posts-list">
+            {{#get "posts" limit="5" include="tags,authors" order="published_at desc"}}
+                {{#foreach posts}}
+                    <a href="{{url}}" class="recent-post-item">
+                        <span class="recent-post-title">{{title}}</span>
+                        <time class="recent-post-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="MM-DD"}}</time>
+                    </a>
+                {{/foreach}}
+            {{/get}}
+        </div>
+    </aside>
+{{/if}}
