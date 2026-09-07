@@ -1,0 +1,32 @@
+{{!< default}}
+
+{{!-- 404页面 --}}
+<div class="error-content">
+    <h1 class="error-code">404</h1>
+    <h2 class="error-title">页面未找到</h2>
+    <p class="error-message">抱歉，您访问的页面不存在或已被移动。</p>
+    <div class="error-actions">
+        <a href="{{@site.url}}" class="error-home-btn">返回首页</a>
+        <button type="button" class="error-search-btn" onclick="toggleSearch()">搜索文章</button>
+    </div>
+    {{!-- 推荐文章 --}}
+    <div class="error-suggestions">
+        <h3>您可能感兴趣的文章</h3>
+        <div class="post-feed">
+            {{#get "posts" limit="3" include="tags,authors" order="published_at desc"}}
+                {{#foreach posts}}
+                    <article class="post-card {{post_class}}">
+                        <a class="post-card-content-link" href="{{url}}">
+                            <header class="post-card-header">
+                                <h2 class="post-card-title">{{title}}</h2>
+                            </header>
+                            <section class="post-card-excerpt">
+                                {{excerpt words="20"}}
+                            </section>
+                        </a>
+                    </article>
+                {{/foreach}}
+            {{/get}}
+        </div>
+    </div>
+</div>

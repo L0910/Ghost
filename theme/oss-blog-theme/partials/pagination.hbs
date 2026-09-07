@@ -1,0 +1,14 @@
+{{!-- 自定义分页模板 --}}
+<nav class="pagination" role="navigation">
+    {{#if prev}}
+        <a class="pagination-prev" href="{{prev_url}}">← 上一页</a>
+    {{else}}
+        <span class="pagination-prev disabled">← 上一页</span>
+    {{/if}}
+    <span class="pagination-info">第 {{page}} 页 / 共 {{pages}} 页</span>
+    {{#if next}}
+        <a class="pagination-next" href="{{next_url}}">下一页 →</a>
+    {{else}}
+        <span class="pagination-next disabled">下一页 →</span>
+    {{/if}}
+</nav>
