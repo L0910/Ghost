@@ -5,9 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{meta_title}}</title>
-    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
     <link rel="stylesheet" type="text/css" href="{{asset "css/custom.css"}}" />
     {{ghost_head}}
+    <script>
+        window.GHOST_CONTENT_API_KEY = '{{@custom.content_api_key}}';
+        window.GHOST_SITE_URL = '{{@site.url}}';
+    </script>
 </head>
 <body class="{{body_class}}">
     <div class="site-wrapper">
@@ -59,7 +62,7 @@
                 </div>
                 <div id="search-results" class="search-results"></div>
                 <div id="search-suggestions" class="search-suggestions">
-                    <p class="search-hint">热门搜索：</p>
+                    <p class="search-hint">热门标签：</p>
                     <div class="search-tags">
                         {{#get "tags" limit="5" include="count.posts" order="count.posts desc"}}
                             {{#foreach tags}}
@@ -94,7 +97,6 @@
 
     </div>
 
-    <script src="{{asset "built/casper.js"}}" defer></script>
     <script src="{{asset "js/custom.js"}}" defer></script>
     <script src="{{asset "js/search-highlight.js"}}" defer></script>
     {{ghost_foot}}
