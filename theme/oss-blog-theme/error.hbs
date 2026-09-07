@@ -1,6 +1,5 @@
 {{!< default}}
 
-{{!-- 404页面 --}}
 <div class="error-content">
     <h1 class="error-code">404</h1>
     <h2 class="error-title">页面未找到</h2>
@@ -9,21 +8,18 @@
         <a href="{{@site.url}}" class="error-home-btn">返回首页</a>
         <button type="button" class="error-search-btn" onclick="toggleSearch()">搜索文章</button>
     </div>
-    {{!-- 推荐文章 --}}
-    <div class="error-suggestions">
-        <h3>您可能感兴趣的文章</h3>
+    <div class="error-recommendations">
+        <h3>推荐阅读</h3>
         <div class="post-feed">
-            {{#get "posts" limit="3" include="tags,authors" order="published_at desc"}}
+            {{#get "posts" limit="3" order="published_at desc"}}
                 {{#foreach posts}}
                     <article class="post-card {{post_class}}">
-                        <a class="post-card-content-link" href="{{url}}">
-                            <header class="post-card-header">
+                        <div class="post-card-content">
+                            <a class="post-card-content-link" href="{{url}}">
                                 <h2 class="post-card-title">{{title}}</h2>
-                            </header>
-                            <section class="post-card-excerpt">
-                                {{excerpt words="20"}}
-                            </section>
-                        </a>
+                                <p class="post-card-excerpt">{{excerpt words="20"}}</p>
+                            </a>
+                        </div>
                     </article>
                 {{/foreach}}
             {{/get}}

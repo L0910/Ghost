@@ -1,6 +1,5 @@
 {{!< default}}
 
-{{!-- 作者页头部 --}}
 <header class="author-header">
     {{#if author.profile_image}}
         <img class="author-profile-image-large" src="{{img_url author.profile_image size="m"}}" alt="{{author.name}}" />
@@ -11,35 +10,33 @@
     {{/if}}
     <div class="author-meta">
         <span>共 {{author.count.posts}} 篇文章</span>
-        {{#if author.location}}
-            <span>· {{author.location}}</span>
-        {{/if}}
     </div>
 </header>
 
-{{!-- 作者文章列表 --}}
 <div class="post-feed">
     {{#foreach posts}}
-        <article class="post-card {{post_class}}{{#unless feature_image}} no-image{{/unless}}">
-            <a class="post-card-image-link" href="{{url}}">
-                <div class="post-card-image"{{#if feature_image}} style="background-image: url({{img_url feature_image size="m"}})"{{/if}}></div>
-            </a>
+        <article class="post-card {{post_class}}">
+            {{#if feature_image}}
+                <a class="post-card-image-link" href="{{url}}">
+                    <div class="post-card-image" style="background-image: url({{img_url feature_image size="m"}})">
+                        {{#if primary_tag}}
+                            <span class="post-card-tag">{{primary_tag.name}}</span>
+                        {{/if}}
+                    </div>
+                </a>
+            {{/if}}
             <div class="post-card-content">
                 <a class="post-card-content-link" href="{{url}}">
-                    <header class="post-card-header">
-                        <h2 class="post-card-title">{{title}}</h2>
-                    </header>
-                    <section class="post-card-excerpt">
-                        {{excerpt words="30"}}
-                    </section>
+                    <h2 class="post-card-title">{{title}}</h2>
+                    <p class="post-card-excerpt">{{excerpt words="30"}}</p>
                 </a>
                 <footer class="post-card-meta">
-                    <time class="post-card-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY年MM月DD日"}}</time>
-                    <span class="post-card-reading-time">{{reading_time}}</span>
+                    <span class="post-card-author">{{primary_author.name}}</span>
+                    <time class="post-card-date">{{date format="YYYY年MM月DD日"}}</time>
                 </footer>
             </div>
         </article>
     {{/foreach}}
 </div>
 
-{{pagination}}
+{{> pagination}}
