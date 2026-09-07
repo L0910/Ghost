@@ -2,7 +2,7 @@
   "name": "oss-blog-theme",
   "description": "开源个人博客系统二次开发 - 自定义主题",
   "demo": "https://github.com/L0910/Ghost",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "ghost": ">=5.0.0"
   },
@@ -37,6 +37,11 @@
     },
     "card_assets": true,
     "custom": {
+      "content_api_key": {
+        "type": "text",
+        "default": "",
+        "description": "Ghost Content API Key（用于搜索功能，在管理端 设置→集成→自定义集成 中获取）"
+      },
       "show_recent_posts": {
         "type": "boolean",
         "default": true,
